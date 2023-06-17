@@ -1,4 +1,4 @@
-lilAvatarUtils
+Avatar Analyzer
 ====
 
 ## Install

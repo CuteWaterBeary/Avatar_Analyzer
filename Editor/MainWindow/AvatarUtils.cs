@@ -14,7 +14,7 @@ namespace lilAvatarUtils.MainWindow
 {
     internal class AvatarUtils
     {
-        private const string menuPathGameObject     = "GameObject/AvatarUtils/";
+        private const string menuPathGameObject     = "GameObject/AvatarAnalyzer/";
         private const string menuPathAnalyzeAvatar  = menuPathGameObject + "[GameObject] Texture Report";
         private const int menuPriorityGameObject    = 21; // This must be 21 or less
         private const int menuPriorityAnalyzeAvatar = menuPriorityGameObject;
@@ -36,7 +36,7 @@ namespace lilAvatarUtils.MainWindow
 
     internal class AvatarUtilsWindow : EditorWindow
     {
-        internal const string TEXT_WINDOW_NAME = "AvatarUtils";
+        internal const string TEXT_WINDOW_NAME = "Avatar Analyzer";
 
         public EditorMode editorMode = EditorMode.Textures;
         public GameObject gameObject;
@@ -48,7 +48,7 @@ namespace lilAvatarUtils.MainWindow
         #endif
         public LightingTestGUI lightingTestGUI = new LightingTestGUI();
 
-        
+
         [NonSerialized] private bool isAnalyzed = false;
         [NonSerialized] Vector3 prevPosition = Vector3.zero;
         [NonSerialized] Quaternion prevRotation = Quaternion.identity;
@@ -56,10 +56,10 @@ namespace lilAvatarUtils.MainWindow
         [NonSerialized] float prevNear = 0;
         [NonSerialized] float prevFar = 0;
 
-        [MenuItem("Window/_lil/AvatarUtils")]
+        [MenuItem("Tools/Avatar Analyzer")]
         internal static void Init()
         {
-            string windowName = $"{TEXT_WINDOW_NAME} {PackageJsonReader.GetVersion()}";
+            string windowName = $"{TEXT_WINDOW_NAME}";
             var window = (AvatarUtilsWindow)GetWindow(typeof(AvatarUtilsWindow), false, windowName);
             window.Show();
         }
