@@ -56,7 +56,7 @@ namespace lilAvatarUtils.MainWindow
         [NonSerialized] float prevNear = 0;
         [NonSerialized] float prevFar = 0;
 
-        [MenuItem("Tools/Avatar Analyzer")]
+        [MenuItem("Analysis+Performance/Avatar Analyzer [Best]")]
         internal static void Init()
         {
             string windowName = $"{TEXT_WINDOW_NAME}";
