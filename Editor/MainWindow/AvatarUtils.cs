@@ -14,8 +14,8 @@ namespace lilAvatarUtils.MainWindow
 {
     internal class AvatarUtils
     {
-        private const string menuPathGameObject     = "GameObject/AvatarAnalyzer/";
-        private const string menuPathAnalyzeAvatar  = menuPathGameObject + "[GameObject] Texture Report";
+        private const string menuPathGameObject     = "GameObject/";
+        private const string menuPathAnalyzeAvatar  = menuPathGameObject + "Analyze this Object...";
         private const int menuPriorityGameObject    = 21; // This must be 21 or less
         private const int menuPriorityAnalyzeAvatar = menuPriorityGameObject;
         [MenuItem(menuPathAnalyzeAvatar, false, menuPriorityAnalyzeAvatar)]
@@ -36,7 +36,7 @@ namespace lilAvatarUtils.MainWindow
 
     internal class AvatarUtilsWindow : EditorWindow
     {
-        internal const string TEXT_WINDOW_NAME = "Avatar Analyzer";
+        internal const string TEXT_WINDOW_NAME = "Object Analyzer";
 
         public EditorMode editorMode = EditorMode.Textures;
         public GameObject gameObject;
@@ -56,7 +56,7 @@ namespace lilAvatarUtils.MainWindow
         [NonSerialized] float prevNear = 0;
         [NonSerialized] float prevFar = 0;
 
-        [MenuItem("Analysis+Performance/Avatar Analyzer [Best]")]
+        [MenuItem("Tools/Object Analyzer")]
         internal static void Init()
         {
             string windowName = $"{TEXT_WINDOW_NAME}";
@@ -78,8 +78,8 @@ namespace lilAvatarUtils.MainWindow
                 #if LIL_VRCSDK3_AVATARS
                 "PhysBones",
                 #endif
-                "Lighting",
-                "Utils"
+                "LightBox",
+                "Utilities"
             };
             editorMode = (EditorMode)GUILayout.Toolbar((int)editorMode, sEditorModeList);
             if(editorMode == EditorMode.Textures)
@@ -104,12 +104,12 @@ namespace lilAvatarUtils.MainWindow
                 return;
             }
             #endif
-            if(editorMode == EditorMode.Lighting)
+            if(editorMode == EditorMode.LightBox)
             {
                 lightingTestGUI.Draw(this);
                 return;
             }
-            if(editorMode == EditorMode.Utils)
+            if(editorMode == EditorMode.Utilities)
             {
                 if(gameObject == null) return;
                 if(GUILayout.Button("Clean up Materials"))
@@ -183,7 +183,7 @@ namespace lilAvatarUtils.MainWindow
 
         private void Update()
         {
-            if(editorMode != EditorMode.Lighting) return;
+            if(editorMode != EditorMode.LightBox) return;
             var sceneView = SceneView.lastActiveSceneView;
             if(sceneView == null || sceneView.camera == null) return;
 
@@ -238,8 +238,8 @@ namespace lilAvatarUtils.MainWindow
             #if LIL_VRCSDK3_AVATARS
             PhysBones,
             #endif
-            Lighting,
-            Utils
+            LightBox,
+            Utilities
         }
     }
 }
