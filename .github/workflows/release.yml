@@ -1,0 +1,74 @@
+name: Build Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: analyzer
+
+env:
+  packageName: "cute.waterbeary.analyzer"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: get version
+        id: version
+        uses: CuteWaterBeary/github-action-json-property@7a701887f4b568b23eb7b78bb0fc49aaeb1b68d3
+        with:
+            path: "package.json"
+            prop_path: "version"
+
+      - name: Set Environment Variables
+        run: |
+          echo "zipFile=${{ env.packageName }}-${{ steps.version.outputs.prop }}".zip >> $GITHUB_ENV
+          # echo "unityPackage=${{ env.packageName }}-${{ steps.version.outputs.prop }}.unitypackage" >> $GITHUB_ENV
+
+      - name: Create Zip
+        uses: CuteWaterBeary/zip-release/@a24011d8d445e4da5935a7e73c1f98e22a439464
+        with:
+          type: "zip"
+          # directory: "/"
+          filename: "${{env.zipFile}}"
+          exclusions: '*.git* *.github* .editorconfig .gitignore'
+
+      # - run: find *.meta >> metaList
+
+      # - name: Create UnityPackage # not working right (maybe missing meta files? but it doesnt import at all)
+      #   uses: CuteWaterBeary/create-unitypackage@cfcd3cf0391a5ef1306342794866a9897c32af0b
+      #   with:
+      #     package-path: ${{ env.unityPackage }}
+      #     include-files: metaList
+
+
+      - name: Make Github Release
+        uses: CuteWaterBeary/action-gh-release@ff6ab387db4b6c9821451da4521b6089e74e2168
+
+        with:
+
+          # Tag under which to release
+          tag_name: ${{ steps.version.outputs.prop }}
+
+          # Whether to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes.
+          generate_release_notes: true
+
+          # Append to body instead of overwriting
+          append_body: false
+
+          # "Newline-delimited list of path globs for asset files to upload"
+
+          files: |
+            ${{ env.zipFile }}
+
+          # ${{ env.unityPackage }} # not generating stuff correctly
+
+          overwrite_files: true
+
+          fail_on_unmatched_files: true
